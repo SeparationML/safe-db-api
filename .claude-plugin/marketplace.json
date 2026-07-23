@@ -1,0 +1,21 @@
+{
+  "name": "safe-db",
+  "description": "Plugins for working with the SAFE (Separation Archive for Elements) database.",
+  "owner": {
+    "name": "SAFE Database Team",
+    "email": "safedb@lanl.gov"
+  },
+  "plugins": [
+    {
+      "name": "safe-db-api",
+      "source": "./",
+      "description": "Ask questions in natural language about the SAFE database of solvent-extraction experiments, answered through the public SAFE REST API.",
+      "category": "research",
+      "tags": [
+        "chemistry",
+        "separation-science",
+        "database"
+      ]
+    }
+  ]
+}

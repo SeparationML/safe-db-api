@@ -1,0 +1,19 @@
+{
+  "name": "safe-db-api",
+  "description": "Ask questions in natural language about the SAFE (Separation Archive for Elements) database of solvent-extraction experiments. Filters, sorts, and aggregates records through the public SAFE REST API.",
+  "version": "0.1.0",
+  "author": {
+    "name": "SAFE Database Team",
+    "email": "safedb@lanl.gov"
+  },
+  "homepage": "https://safe.lanl.gov",
+  "keywords": [
+    "chemistry",
+    "separation-science",
+    "solvent-extraction",
+    "lanthanides",
+    "actinides",
+    "database",
+    "rest-api"
+  ]
+}
