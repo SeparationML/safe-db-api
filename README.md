@@ -74,6 +74,8 @@ identifiers for extractants. Claude can:
 - **Sort** ascending or descending, and page through large result sets
 - **Select columns** so results stay readable
 - **Count** records grouped by a field (per metal, per extractant, and so on)
+- **Search by structure** substructure (SMARTS/SMILES) or Tanimoto similarity to a query molecule
+- **Look up computational records** method, software, energies, oxidation state
 
 Ask for the raw JSON if you want it; otherwise Claude summarizes and reports how
 many records matched in total.
@@ -105,11 +107,12 @@ and query semantics — it is not user documentation.
 API directly:
 
 ```bash
-python skills/safe-db-api/scripts/safe_client.py aggregate --group-by Metal_Name
+python skills/safe-db-api/scripts/safe_client.py experiments aggregate --group-by Metal_Name
 ```
 
-Run it with `-h` for the full CLI, or import `list_extractants`,
-`get_extractant`, `query_extractants`, and `aggregate_extractants` from it.
+Run it with `-h` for the full CLI, or import `list_experiments`,
+`get_experiment`, `query_experiments`, `aggregate_experiments`, and the
+`*_simulations` equivalents from it.
 
 `SAFE_BASE_URL` overrides the API endpoint (default `https://safe.lanl.gov`);
 most users never need to set it.
