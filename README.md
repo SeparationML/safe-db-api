@@ -1,13 +1,13 @@
 # safe-db-api
 
-A Claude skill for querying the **SAFE (Separation Archive for Elements)**
+An agent skill for querying the **SAFE (Separation Archive for Elements)**
 database — a publicly accessible archive of experimental and computational data
 on separation processes, including liquid–liquid extraction and solid–liquid
-chromatography.
+chromatography. Works in both Claude Code and OpenAI Codex.
 
-Install it once, then ask questions in plain language. Claude translates them
-into SAFE REST API calls and answers from the returned records — no commands to
-memorize, no HTTP requests to hand-write.
+Install it once, then ask questions in plain language. The agent translates
+them into SAFE REST API calls and answers from the returned records — no
+commands to memorize, no HTTP requests to hand-write.
 
 > How many europium records are in SAFE?
 >
@@ -19,7 +19,13 @@ Database: <https://safe.lanl.gov>
 
 ## Supported environment
 
-This skill is for **Claude Code**.
+This skill supports:
+
+- **Claude Code**, as a Claude Code plugin
+- **OpenAI Codex**, as a Codex plugin
+
+Both consume the same skill files under `skills/safe-db-api/` — there is no
+platform-specific copy of the query logic.
 
 ## Requirements
 
@@ -28,15 +34,16 @@ This skill is for **Claude Code**.
 
 ## Get an API key
 
-Every endpoint requires a key, and keys are tied to a registered account.
+Every endpoint requires a key, and keys are tied to a registered account. This
+setup is identical for Claude Code and Codex — the key is a plain environment
+variable, not something either plugin manifest handles.
 
 1. Go to <https://safe.lanl.gov> and register an account.
 2. Sign in and open your **profile page**.
 3. Click **Generate API Key**. The key is shown **only once** — copy it right
    away. You can revoke and regenerate it from the same page.
 
-Then make the key available to Claude by exporting it in the environment where
-the skill runs:
+Then make the key available in the environment where the skill runs:
 
 ```bash
 export SAFE_API_KEY=your-key-here
@@ -49,11 +56,13 @@ Never commit a key to a repository or share it in a public issue.
 
 ## Install
 
+### Claude Code
+
 The repository is also a Claude Code plugin marketplace, so it installs in two
 commands:
 
 ```shell
-/plugin marketplace add <owner>/<repo>
+/plugin marketplace add SeparationML/safe-db-api
 /plugin install safe-db-api@safe-db
 /reload-plugins
 ```
@@ -61,6 +70,25 @@ commands:
 After installing, start a new conversation and just ask your question — Claude
 loads the skill automatically when a request matches it. You never need to run
 the client yourself.
+
+### OpenAI Codex
+
+The same repository is also a Codex plugin marketplace:
+
+```bash
+codex plugin marketplace add SeparationML/safe-db-api
+codex plugin add safe-db-api@safe-db
+```
+
+Verify it installed with:
+
+```bash
+codex plugin list
+```
+
+or open the `/plugins` browser inside the Codex CLI. After installing, just
+ask your question in a Codex session — the skill loads automatically when a
+request matches it, same as in Claude Code.
 
 ## What you can ask
 
@@ -85,11 +113,16 @@ many records matched in total.
 ```
 .
 ├── .claude-plugin/
-│   ├── marketplace.json    # Marketplace catalog
-│   └── plugin.json         # Plugin manifest
+│   ├── marketplace.json    # Claude Code marketplace catalog
+│   └── plugin.json         # Claude Code plugin manifest
+├── .codex-plugin/
+│   └── plugin.json         # Codex plugin manifest
+├── .agents/
+│   └── plugins/
+│       └── marketplace.json   # Codex marketplace catalog
 ├── skills/
 │   └── safe-db-api/
-│       ├── SKILL.md        # Instructions Claude loads
+│       ├── SKILL.md        # Instructions the model loads
 │       ├── scripts/
 │       │   └── safe_client.py   # REST client used by the skill
 │       └── references/
@@ -97,7 +130,9 @@ many records matched in total.
 └── README.md
 ```
 
-`SKILL.md` and `references/fields.md` are written for Claude, not for end users.
+Both plugin manifests point at the same `skills/safe-db-api/` directory —
+there is one implementation, not one per platform. `SKILL.md` and
+`references/fields.md` are written for the model, not for end users.
 `fields.md` is the API specification the skill consults for valid field names
 and query semantics — it is not user documentation.
 
@@ -134,8 +169,8 @@ Claude relies on it for valid field names, `_min`/`_max` range rules, the
 `numeric_multi` first-entry comparison caveat, and the error contract. A stale
 reference produces confidently wrong queries.
 
-Bump `version` in `.claude-plugin/plugin.json` on each release so installed
-users receive the update.
+Bump `version` in `.claude-plugin/plugin.json` **and** `.codex-plugin/plugin.json`
+on each release so installed users on both platforms receive the update.
 
 ## Citation
 

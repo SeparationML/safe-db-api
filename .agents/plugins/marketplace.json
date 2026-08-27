@@ -1,0 +1,21 @@
+{
+  "name": "safe-db",
+  "interface": {
+    "displayName": "SAFE DB"
+  },
+  "plugins": [
+    {
+      "name": "safe-db-api",
+      "description": "Ask questions in natural language about the SAFE database of solvent-extraction experiments, answered through the public SAFE REST API.",
+      "category": "Research",
+      "source": {
+        "source": "local",
+        "path": "../.."
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      }
+    }
+  ]
+}
